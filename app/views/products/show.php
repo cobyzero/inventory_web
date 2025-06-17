@@ -79,8 +79,9 @@
                         <a href="/products/<?= $product['id'] ?>/edit" class="btn btn-warning">
                             <i class="bi bi-pencil"></i> Editar Producto
                         </a>
-                        <form action="/products/<?= $product['id'] ?>/delete" method="POST" class="d-grid" 
+                        <form action="/products/<?= $product['id'] ?>" method="POST" class="d-grid" 
                               onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
+                            <input type="hidden" name="_method" value="DELETE">
                             <button type="submit" class="btn btn-danger">
                                 <i class="bi bi-trash"></i> Eliminar Producto
                             </button>
