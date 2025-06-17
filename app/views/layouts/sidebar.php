@@ -21,7 +21,7 @@
             </a>
         </li>
         <li>
-            <a href="/inventory/index" class="nav-link <?= str_contains($_SERVER['REQUEST_URI'], 'inventory') ? 'active' : '' ?>">
+            <a href="/inventory" class="nav-link <?= str_contains($_SERVER['REQUEST_URI'], 'inventory') ? 'active' : '' ?>">
                 <i class="bi bi-boxes"></i> Inventario
             </a>
         </li>

@@ -22,6 +22,9 @@ $router = new Router();
 $router->get('/auth/login', 'AuthController@login');
 $router->post('/auth/login', 'AuthController@login');
 $router->post('/auth/logout', 'AuthController@logout');
+$router->get('/auth/register', 'AuthController@register');
+$router->post('/auth/register', 'AuthController@register');
+
 
 // Rutas del dashboard
 $router->get('/', function() {
@@ -39,6 +42,22 @@ $router->get('/products/{id}', 'ProductsController@show');
 $router->get('/products/{id}/edit', 'ProductsController@edit');
 $router->post('/products/{id}/update', 'ProductsController@update');
 $router->delete('/products/{id}', 'ProductsController@delete');
+
+// Rutas de categorías
+$router->get('/categories', 'CategoriesController@index');
+$router->get('/categories/create', 'CategoriesController@create');
+$router->post('/categories', 'CategoriesController@store');
+$router->get('/categories/{id}', 'CategoriesController@show');
+$router->get('/categories/{id}/edit', 'CategoriesController@edit');
+$router->put('/categories/{id}', 'CategoriesController@update');
+$router->delete('/categories/{id}', 'CategoriesController@delete');
+
+// Rutas de inventario
+$router->get('/inventory', 'InventoryController@index');
+$router->get('/inventory/create', 'InventoryController@create');
+$router->post('/inventory', 'InventoryController@store');
+$router->get('/inventory/{id}', 'InventoryController@show');
+$router->get('/products/{id}/inventory', 'InventoryController@productHistory');
 
 // Manejar rutas no encontradas
 $router->setNotFound(function() {

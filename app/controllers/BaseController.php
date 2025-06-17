@@ -24,6 +24,25 @@ class BaseController {
     }
     
     // Método para cargar modelos
+    // Verificar si el usuario está autenticado
+    protected function requireAuth() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /auth/login');
+            exit();
+        }
+    }
+    
+    // Mostrar página de error 404
+    protected function notFound($message = 'Página no encontrada') {
+        http_response_code(404);
+        $this->render('errors/404', [
+            'title' => 'Error 404',
+            'message' => $message
+        ]);
+        exit();
+    }
+    
+    // Cargar un modelo
     protected function model($model) {
         $modelFile = 'app/models/' . $model . '.php';
         
