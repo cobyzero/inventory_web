@@ -26,13 +26,13 @@
 
                     <form action="/inventory" method="POST">
                         <div class="mb-3">
-                            <label for="type" class="form-label">Tipo de Movimiento <span class="text-danger">*</span></label>
-                            <select class="form-select <?= isset($errors['type']) ? 'is-invalid' : '' ?>" 
-                                    id="type" 
-                                    name="type" 
+                            <label for="movement_type" class="form-label">Tipo de Movimiento <span class="text-danger">*</span></label>
+                            <select class="form-select <?= isset($errors['movement_type']) ? 'is-invalid' : '' ?>" 
+                                    id="movement_type" 
+                                    name="movement_type" 
                                     required>
                                 <?php foreach ($types as $value => $label): ?>
-                                    <option value="<?= $value ?>" <?= $movement['type'] === $value ? 'selected' : '' ?>>
+                                    <option value="<?= $value ?>" <?= (isset($_POST['movement_type']) && $_POST['movement_type'] === $value) ? 'selected' : '' ?>>
                                         <?= $label ?>
                                     </option>
                                 <?php endforeach; ?>
