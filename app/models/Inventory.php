@@ -206,4 +206,60 @@ class Inventory {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ? (float)$result['stock'] : 0;
     }
+    
+    /**
+     * Obtiene estadísticas del inventario
+     * 
+     * @return array Arreglo con las estadísticas del inventario
+     */
+    public function getInventoryStats() {
+        $stats = [
+            'total_quantity' => 0,
+            'total_products' => 0,
+            'low_stock' => []
+        ];
+        
+        try {
+            // Obtener el stock total y productos con bajo stock
+            $query = "SELECT 
+                        p.id,
+                        p.name,
+                        p.code,
+                        p.min_stock,
+                        p.stock as current_stock
+                      FROM products p
+                      WHERE p.stock > 0";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            
+            $total_quantity = 0;
+            $low_stock = [];
+            
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $total_quantity += $row['current_stock'];
+                
+                // Verificar si está por debajo del stock mínimo (si está definido)
+                if ($row['min_stock'] !== null && $row['current_stock'] <= $row['min_stock']) {
+                    $low_stock[] = [
+                        'id' => $row['id'],
+                        'name' => $row['name'],
+                        'code' => $row['code'],
+                        'current_stock' => $row['current_stock'],
+                        'min_stock' => $row['min_stock']
+                    ];
+                }
+            }
+            
+            $stats['total_quantity'] = $total_quantity;
+            $stats['total_products'] = $stmt->rowCount();
+            $stats['low_stock'] = $low_stock;
+            
+        } catch (PDOException $e) {
+            // Registrar el error
+            error_log("Error en getInventoryStats: " . $e->getMessage());
+        }
+        
+        return $stats;
+    }
 }
