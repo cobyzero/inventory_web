@@ -16,7 +16,7 @@
             </a>
         </li>
         <li>
-            <a href="/sales/index" class="nav-link <?= str_contains($_SERVER['REQUEST_URI'], 'sales') ? 'active' : '' ?>">
+            <a href="/sales" class="nav-link <?= str_contains($_SERVER['REQUEST_URI'], 'sales') ? 'active' : '' ?>">
                 <i class="bi bi-cart-check"></i> Ventas
             </a>
         </li>
@@ -26,7 +26,7 @@
             </a>
         </li>
         <li>
-            <a href="/clients/index" class="nav-link <?= str_contains($_SERVER['REQUEST_URI'], 'clients') ? 'active' : '' ?>">
+            <a href="/customers" class="nav-link <?= str_contains($_SERVER['REQUEST_URI'], 'customers') ? 'active' : '' ?>">
                 <i class="bi bi-people"></i> Clientes
             </a>
         </li>

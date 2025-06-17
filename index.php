@@ -59,6 +59,28 @@ $router->post('/inventory', 'InventoryController@store');
 $router->get('/inventory/{id}', 'InventoryController@show');
 $router->get('/products/{id}/inventory', 'InventoryController@productHistory');
 
+// Rutas de ventas
+$router->get('/sales', 'SalesController@index');
+$router->get('/sales/create', 'SalesController@create');
+$router->post('/sales', 'SalesController@store');
+$router->post('/sales/store', 'SalesController@store');
+$router->get('/sales/{id}', 'SalesController@show');
+$router->get('/sales/{id}/edit', 'SalesController@edit');
+$router->post('/sales/{id}/update', 'SalesController@update');
+$router->post('/sales/{id}/cancel', 'SalesController@cancel');
+$router->get('/sales/{id}/print', 'SalesController@print');
+
+// Rutas de clientes
+$router->get('/customers', 'CustomersController@index');
+$router->get('/customers/create', 'CustomersController@create');
+$router->post('/customers', 'CustomersController@store');
+$router->get('/customers/{id}', 'CustomersController@show');
+$router->get('/customers/{id}/edit', 'CustomersController@edit');
+$router->put('/customers/{id}', 'CustomersController@update');
+$router->post('/customers/{id}/update', 'CustomersController@update');
+$router->delete('/customers/{id}', 'CustomersController@delete');
+$router->get('/customers/search', 'CustomersController@search');
+
 // Manejar rutas no encontradas
 $router->setNotFound(function() {
     http_response_code(404);
