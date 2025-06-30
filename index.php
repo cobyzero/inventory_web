@@ -27,9 +27,19 @@ $router->post('/auth/register', 'AuthController@register');
 
 
 // Rutas del dashboard
+$router->get('/user', 'UserController@index');
 $router->get('/', function() {
-    header('Location: /dashboard');
-    exit();
+    if (!isset($_SESSION['role'])) {
+        header('Location: /auth/login');
+        exit();
+    }
+    if ($_SESSION['role'] === 'admin') {
+        header('Location: /dashboard');
+        exit();
+    } else {
+        header('Location: /user');
+        exit();
+    }
 });
 $router->get('/dashboard', 'DashboardController@index');
 
@@ -64,22 +74,12 @@ $router->get('/sales', 'SalesController@index');
 $router->get('/sales/create', 'SalesController@create');
 $router->post('/sales', 'SalesController@store');
 $router->post('/sales/store', 'SalesController@store');
-$router->get('/sales/{id}', 'SalesController@show');
-$router->get('/sales/{id}/edit', 'SalesController@edit');
-$router->post('/sales/{id}/update', 'SalesController@update');
+$router->post('/sales/removeFromCart', 'SalesController@removeFromCart');
+$router->get('/sales/{id}/edit', 'SalesController@edit'); // Solo admin
+$router->post('/sales/{id}/update', 'SalesController@update'); // Solo admin
 $router->post('/sales/{id}/cancel', 'SalesController@cancel');
-$router->get('/sales/{id}/print', 'SalesController@print');
-
-// Rutas de clientes
-$router->get('/customers', 'CustomersController@index');
-$router->get('/customers/create', 'CustomersController@create');
-$router->post('/customers', 'CustomersController@store');
-$router->get('/customers/{id}', 'CustomersController@show');
-$router->get('/customers/{id}/edit', 'CustomersController@edit');
-$router->put('/customers/{id}', 'CustomersController@update');
-$router->post('/customers/{id}/update', 'CustomersController@update');
-$router->delete('/customers/{id}', 'CustomersController@delete');
-$router->get('/customers/search', 'CustomersController@search');
+$router->post('/sales/addToCart', 'SalesController@addToCart');
+$router->get('/sales/{id}/show', 'SalesController@show');
 
 // Manejar rutas no encontradas
 $router->setNotFound(function() {

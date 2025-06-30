@@ -63,8 +63,6 @@ class Inventory {
 
     // Crear un nuevo movimiento de inventario
     public function create($data) {
-        $this->conn->beginTransaction();
-        
         try {
             // 1. Insertar el movimiento
             $query = "INSERT INTO " . $this->table_name . " 
@@ -106,12 +104,9 @@ class Inventory {
             // 2. Actualizar el stock del producto
             $this->updateProductStock($product_id, $quantity);
             
-            $this->conn->commit();
-            
             return $movement_id;
             
         } catch (Exception $e) {
-            $this->conn->rollBack();
             throw $e;
         }
     }

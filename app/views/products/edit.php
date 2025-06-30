@@ -1,4 +1,9 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
+<?php if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin'): ?>
+    <div class="alert alert-danger mt-4">Acceso denegado. No tienes permisos para editar productos.</div>
+    <?php include __DIR__ . '/../layouts/footer.php'; ?>
+    <?php exit; ?>
+<?php endif; ?>
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Editar Producto</h1>

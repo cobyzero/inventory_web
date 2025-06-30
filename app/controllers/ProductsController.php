@@ -32,7 +32,11 @@ class ProductsController extends BaseController {
     // Mostrar formulario para crear un nuevo producto
     public function create() {
         requireAuth();
-        
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            echo '<div style="padding:2rem"><h3>Acceso denegado</h3><p>No tienes permisos para crear productos.</p></div>';
+            exit();
+        }
         // Obtener categorías para el select
         $categories = $this->getCategories();
         
@@ -46,7 +50,11 @@ class ProductsController extends BaseController {
     // Guardar un nuevo producto
     public function store() {
         requireAuth();
-        
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            echo '<div style="padding:2rem"><h3>Acceso denegado</h3><p>No tienes permisos para crear productos.</p></div>';
+            exit();
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = $this->validateProduct($_POST);
             
@@ -103,7 +111,11 @@ class ProductsController extends BaseController {
     // Mostrar formulario para editar un producto
     public function edit($id) {
         requireAuth();
-        
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            echo '<div style="padding:2rem"><h3>Acceso denegado</h3><p>No tienes permisos para editar productos.</p></div>';
+            exit();
+        }
         $product = $this->productModel->getById($id);
         
         if (!$product) {
@@ -124,7 +136,11 @@ class ProductsController extends BaseController {
     // Actualizar un producto
     public function update($id) {
         requireAuth();
-        
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            echo '<div style="padding:2rem"><h3>Acceso denegado</h3><p>No tienes permisos para actualizar productos.</p></div>';
+            exit();
+        }
         $product = $this->productModel->getById($id);
         
         if (!$product) {
@@ -171,7 +187,11 @@ class ProductsController extends BaseController {
     // Eliminar un producto
     public function delete($id) {
         requireAuth();
-        
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            echo '<div style="padding:2rem"><h3>Acceso denegado</h3><p>No tienes permisos para eliminar productos.</p></div>';
+            exit();
+        }
         if ($this->productModel->delete($id)) {
             $_SESSION['success_message'] = 'Producto eliminado exitosamente';
         } else {

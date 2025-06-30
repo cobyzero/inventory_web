@@ -16,7 +16,11 @@ class AuthController extends BaseController {
                 $_SESSION['full_name'] = $user['full_name'];
                 $_SESSION['role'] = $user['role'];
                 
-                redirect('/dashboard');
+                if ($_SESSION['role'] === 'admin') {
+                    redirect('/dashboard');
+                } else {
+                    redirect('/user');
+                }
             } else {
                 $error = 'Usuario o contraseña incorrectos';
             }

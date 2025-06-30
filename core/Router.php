@@ -1,5 +1,13 @@
 <?php
-
+/*
+ * License: MIT License
+ * 
+ * Author: Cobyzero
+ * 
+ * Description: Router class for routing requests to the appropriate controller and action.
+ * 
+ * Version: 1.0.0
+ */
 class Router {
     private $routes = [];
     private $notFoundCallback;

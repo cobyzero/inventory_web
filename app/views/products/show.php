@@ -76,17 +76,19 @@
                 <div class="border rounded p-3 mb-3">
                     <h5>Acciones</h5>
                     <div class="d-grid gap-2">
-                        <a href="/products/<?= $product['id'] ?>/edit" class="btn btn-warning">
-                            <i class="bi bi-pencil"></i> Editar Producto
-                        </a>
-                        <form action="/products/<?= $product['id'] ?>" method="POST" class="d-grid" 
-                              onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Eliminar Producto
-                            </button>
-                        </form>
-                    </div>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+        <a href="/products/<?= $product['id'] ?>/edit" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Editar Producto
+        </a>
+        <form action="/products/<?= $product['id'] ?>" method="POST" class="d-grid" 
+              onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Eliminar Producto
+            </button>
+        </form>
+    <?php endif; ?>
+</div>
                 </div>
                 
                 <div class="border rounded p-3">

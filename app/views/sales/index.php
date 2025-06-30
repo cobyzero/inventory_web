@@ -4,7 +4,7 @@
                 <h1 class="h2"><?= $title ?></h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <a href="/sales/create" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Nueva Venta
+                        <i class="bi bi-plus"></i> Nueva Venta
                     </a>
                 </div>
             </div>
@@ -16,55 +16,6 @@
                 </div>
                 <?php unset($_SESSION['success']); ?>
             <?php endif; ?>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-filter me-1"></i>
-                    Filtros
-                </div>
-                <div class="card-body">
-                    <form method="get" class="row g-3">
-                        <div class="col-md-3">
-                            <label for="status" class="form-label">Estado</label>
-                            <select class="form-select" id="status" name="status">
-                                <option value="">Todos</option>
-                                <?php foreach ($statuses as $value => $label): ?>
-                                    <option value="<?= $value ?>" <?= (isset($_GET['status']) && $_GET['status'] === $value) ? 'selected' : '' ?>>
-                                        <?= $label ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="payment_method" class="form-label">Método de Pago</label>
-                            <select class="form-select" id="payment_method" name="payment_method">
-                                <option value="">Todos</option>
-                                <?php foreach ($payment_methods as $value => $label): ?>
-                                    <option value="<?= $value ?>" <?= (isset($_GET['payment_method']) && $_GET['payment_method'] === $value) ? 'selected' : '' ?>>
-                                        <?= $label ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="search" class="form-label">Buscar</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="search" name="search" 
-                                       placeholder="N° de factura, cliente..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <a href="/sales" class="btn btn-secondary">
-                                <i class="fas fa-sync-alt"></i> Limpiar
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -75,7 +26,6 @@
                                     <th>Fecha</th>
                                     <th>Cliente</th>
                                     <th>Total</th>
-                                    <th>Método de Pago</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -91,10 +41,7 @@
                                             <td><?= htmlspecialchars($sale['invoice_number_formatted']) ?></td>
                                             <td><?= date('d/m/Y H:i', strtotime($sale['created_at'])) ?></td>
                                             <td><?= htmlspecialchars($sale['customer_name'] ?? 'Cliente no especificado') ?></td>
-                                            <td class="text-end">$<?= number_format($sale['total'], 2) ?></td>
-                                            <td>
-                                                <?= $payment_methods[$sale['payment_method']] ?? ucfirst($sale['payment_method']) ?>
-                                            </td>
+                                            <td>$<?= number_format($sale['total'], 2) ?></td>
                                             <td>
                                                 <?php
                                                 $status_class = [
@@ -108,14 +55,14 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="/sales/<?= $sale['id'] ?>" class="btn btn-sm btn-info" 
+                                                <a href="/sales/<?= $sale['id'] ?>/show" class="btn btn-sm btn-info" 
                                                    title="Ver detalles">
-                                                    <i class="fas fa-eye"></i>
+                                                    <i class="bi bi-eye"></i>
                                                 </a>
-                                                <?php if ($sale['status'] !== 'cancelled'): ?>
+                                                <?php if ($sale['status'] !== 'cancelled' && $_SESSION['role'] === 'admin'): ?>
                                                     <a href="/sales/<?= $sale['id'] ?>/edit" class="btn btn-sm btn-warning" 
                                                        title="Editar">
-                                                        <i class="fas fa-edit"></i>
+                                                        <i class="bi bi-pencil"></i>
                                                     </a>
                                                 <?php endif; ?>
                                             </td>

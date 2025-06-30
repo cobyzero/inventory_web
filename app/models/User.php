@@ -106,4 +106,23 @@ class User {
         // Ejecutar consulta
         return $stmt->execute();
     }
+
+    // Obtener todos los usuarios por rol
+    public function getAllUsersByRole($role) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE role = :role ORDER BY full_name ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':role', $role);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener usuario por ID
+    public function getById($id) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
+

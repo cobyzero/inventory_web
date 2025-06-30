@@ -3,9 +3,20 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Productos</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
         <a href="products/create" class="btn btn-sm btn-outline-primary">
             <i class="bi bi-plus-circle"></i> Nuevo Producto
         </a>
+        <?php endif; ?>
+        <?php if (!isset($_SESSION['role'])): ?>
+            <a href="/auth/login" class="btn btn-sm btn-success ms-2">
+                <i class="bi bi-cart"></i> Hacer pedido
+            </a>
+        <?php else: ?>
+            <a href="/sales/create" class="btn btn-sm btn-success ms-2">
+                <i class="bi bi-cart"></i> Hacer pedido
+            </a>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -60,16 +71,18 @@
                                     <a href="products/<?= $product['id'] ?>" class="btn btn-sm btn-info text-white" title="Ver">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="products/<?= $product['id'] . '/edit' ?>" class="btn btn-sm btn-warning" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="products/<?= $product['id'] ?>" method="POST" class="d-inline" 
-                                          onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                                        <a href="products/<?= $product['id'] . '/edit' ?>" class="btn btn-sm btn-warning" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="products/<?= $product['id'] ?>" method="POST" class="d-inline" 
+                                              onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
